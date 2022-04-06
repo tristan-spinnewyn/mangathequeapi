@@ -9,7 +9,6 @@ async function bootstrap() {
     'https://mangatheque.netlify.app',
   ];
   app.useGlobalPipes(new ValidationPipe());
-  await app.listen(process.env.PORT || 3000);
   app.enableCors({
     origin: function (origin, callback) {
       if (!origin || whitelist.indexOf(origin) !== -1) {
@@ -19,6 +18,6 @@ async function bootstrap() {
       }
     },
   });
-  await app.listen(3000);
+  await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
