@@ -29,7 +29,7 @@ export class AuthService {
     const { email, password } = authLoginDto;
 
     const user = await this.usersService.findByEmail(email);
-    if (!(await user?.validatePassword(password))) {
+    if (!(await user?.validatePassword(password)) && !user.active) {
       throw new UnauthorizedException();
     }
 

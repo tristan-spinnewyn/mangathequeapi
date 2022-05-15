@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { User } from './user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -10,6 +11,14 @@ export class UsersService {
 
     delete user.password;
     return user;
+  }
+
+  async update(updateUserDto: UpdateUserDto, currentUser: User) {
+    return await User.save(Object.assign(currentUser, updateUserDto));
+  }
+
+  async updateSimply(user: User) {
+    return await User.update(user.id, user);
   }
 
   async showById(id: number): Promise<User> {
