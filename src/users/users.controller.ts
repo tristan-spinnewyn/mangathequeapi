@@ -1,7 +1,8 @@
 import {
   Body,
   Controller,
-  HttpStatus, Param,
+  HttpStatus,
+  Param,
   Post,
   Put,
   Req,
@@ -16,7 +17,6 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Request } from 'express';
 import { User } from './user.decorator';
-import {use} from "passport";
 
 @Controller('users')
 export class UsersController {
