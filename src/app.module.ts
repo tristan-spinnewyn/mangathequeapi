@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { EditeursModule } from './editeurs/editeurs.module';
+import { AuteursModule } from './auteurs/auteurs.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { EditeursModule } from './editeurs/editeurs.module';
     UsersModule,
     AuthModule,
     EditeursModule,
+    AuteursModule,
   ],
   controllers: [AppController],
   providers: [AppService],
