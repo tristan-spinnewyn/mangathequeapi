@@ -16,7 +16,6 @@ import { CreateEditeurDto } from './dto/create-editeur.dto';
 import { User } from '../users/user.decorator';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { UsersService } from '../users/users.service';
-import { use } from 'passport';
 
 @Controller('editeurs')
 export class EditeursController {
