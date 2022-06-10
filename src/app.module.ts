@@ -8,6 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { EditeursModule } from './editeurs/editeurs.module';
 import { AuteursModule } from './auteurs/auteurs.module';
 import { SeriesModule } from './series/series.module';
+import { EditionModule } from './edition/edition.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { SeriesModule } from './series/series.module';
     EditeursModule,
     AuteursModule,
     SeriesModule,
+    EditionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

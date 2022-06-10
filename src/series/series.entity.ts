@@ -3,9 +3,11 @@ import {
   Column,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Auteurs } from '../auteurs/auteurs.entity';
+import { Edition } from '../edition/edition.entity';
 
 @Entity('series')
 export class Series extends BaseEntity {
@@ -17,4 +19,7 @@ export class Series extends BaseEntity {
 
   @ManyToOne((type) => Auteurs, (auteurs) => auteurs.id)
   auteur: Auteurs;
+
+  @OneToMany((type) => Edition, (edition) => edition.serie)
+  editions: Edition[];
 }
