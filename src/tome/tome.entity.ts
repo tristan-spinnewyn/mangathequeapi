@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Edition } from '../edition/edition.entity';
 import { Tome_user } from './tome_user.entity';
+import { Avis } from '../avis/avis.entity';
 
 @Entity('tome')
 export class Tome extends BaseEntity {
@@ -37,4 +38,7 @@ export class Tome extends BaseEntity {
 
   @OneToMany((type) => Tome_user, (tome_user) => tome_user.tome)
   tomeUser: Tome_user[];
+
+  @OneToMany((type) => Avis, (avis) => avis.tome)
+  avis: Avis[];
 }

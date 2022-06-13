@@ -10,6 +10,7 @@ import { AuteursModule } from './auteurs/auteurs.module';
 import { SeriesModule } from './series/series.module';
 import { EditionModule } from './edition/edition.module';
 import { TomeModule } from './tome/tome.module';
+import { AvisModule } from './avis/avis.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { TomeModule } from './tome/tome.module';
     SeriesModule,
     EditionModule,
     TomeModule,
+    AvisModule,
   ],
   controllers: [AppController],
   providers: [AppService],

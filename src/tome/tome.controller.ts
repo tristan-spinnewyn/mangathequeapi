@@ -17,12 +17,14 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { TomeDto } from './dto/tome.dto';
 import { Response } from 'express';
 import { User } from '../users/user.decorator';
+import { AvisService } from '../avis/avis.service';
 
 @Controller('tome')
 export class TomeController {
   constructor(
     private readonly tomeService: TomeService,
     private readonly usersServices: UsersService,
+    private readonly avisService: AvisService,
   ) {}
 
   @Post()
@@ -88,5 +90,10 @@ export class TomeController {
   ) {
     await this.tomeService.delTomeUser(params.id, userId);
     return res.status(HttpStatus.OK).send();
+  }
+
+  @Get(':id/avis')
+  async getAvis(@Param() params) {
+    return await this.avisService.findByTome(params.id);
   }
 }

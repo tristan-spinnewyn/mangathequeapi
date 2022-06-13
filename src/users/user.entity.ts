@@ -12,6 +12,7 @@ import {
 import * as bcrypt from 'bcryptjs';
 import { Edition_user } from '../edition/edition_user.entity';
 import { Tome_user } from '../tome/tome_user.entity';
+import { Avis } from '../avis/avis.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -58,4 +59,7 @@ export class User extends BaseEntity {
 
   @OneToMany((type) => Tome_user, (tome_user) => tome_user.user)
   tomeUser: Tome_user[];
+
+  @OneToMany((type) => Avis, (avis) => avis.user)
+  avis: Avis[];
 }
