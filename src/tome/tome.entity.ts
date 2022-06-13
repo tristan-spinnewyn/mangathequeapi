@@ -30,7 +30,9 @@ export class Tome extends BaseEntity {
   @Column()
   imageCouverture: string;
 
-  @Column('uniqueidentifier')
+  @Column({
+    unique: true,
+  })
   isbn: string;
 
   @ManyToOne((type) => Edition, (edition) => edition.id)

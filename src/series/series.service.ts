@@ -1,14 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { CreateSeriesDto } from './dto/createSeriesDto';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Auteurs } from '../auteurs/auteurs.entity';
 import { Repository } from 'typeorm';
 import { Series } from './series.entity';
+import { AuteursService } from '../auteurs/auteurs.service';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class SeriesService {
   constructor(
-    @InjectRepository(Auteurs) private readonly auteurRepo: Repository<Auteurs>,
+    @Inject(forwardRef(() => AuteursService))
+    private readonly auteurRepo: Repository<Auteurs>,
     @InjectRepository(Series) private readonly serieRepo: Repository<Series>,
   ) {}
   async createOrUpdate(createSeriesDto: CreateSeriesDto, id) {

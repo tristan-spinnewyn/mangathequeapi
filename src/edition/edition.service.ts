@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Edition } from './edition.entity';
 import { Repository } from 'typeorm';
@@ -8,18 +8,21 @@ import { EditionDto } from './dto/edition.dto';
 import { Edition_user } from './edition_user.entity';
 import { User } from '../users/user.entity';
 import { Edition_userDto } from './dto/edition_user.dto';
+import { SeriesService } from '../series/series.service';
+import { UsersService } from '../users/users.service';
+import { EditeursService } from '../editeurs/editeurs.service';
 
 @Injectable()
 export class EditionService {
   constructor(
     @InjectRepository(Edition)
     private readonly editionRepo: Repository<Edition>,
-    @InjectRepository(Series) private readonly seriesRepo: Repository<Series>,
-    @InjectRepository(Editeurs)
+    @Inject(SeriesService) private readonly seriesRepo: Repository<Series>,
+    @Inject(EditeursService)
     private readonly editeursRepo: Repository<Editeurs>,
     @InjectRepository(Edition_user)
     private readonly editionUser: Repository<Edition_user>,
-    @InjectRepository(User)
+    @Inject(UsersService)
     private readonly userRepo: Repository<User>,
   ) {}
 

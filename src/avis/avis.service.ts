@@ -1,17 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Avis } from './avis.entity';
 import { Repository } from 'typeorm';
 import { Tome } from '../tome/tome.entity';
 import { User } from '../users/user.entity';
 import { AvisDto } from './dto/avis.dto';
+import { TomeService } from '../tome/tome.service';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class AvisService {
   constructor(
     @InjectRepository(Avis) private readonly avisRepo: Repository<Avis>,
-    @InjectRepository(Tome) private readonly tomeRepo: Repository<Tome>,
-    @InjectRepository(User) private readonly userRepo: Repository<User>,
+    @Inject(TomeService) private readonly tomeRepo: Repository<Tome>,
+    @Inject(UsersService) private readonly userRepo: Repository<User>,
   ) {}
 
   async createOrUpdate(avisDto: AvisDto, id) {
