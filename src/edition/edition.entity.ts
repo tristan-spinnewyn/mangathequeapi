@@ -9,6 +9,7 @@ import {
 import { Editeurs } from '../editeurs/editeurs.entity';
 import { Series } from '../series/series.entity';
 import { Edition_user } from './edition_user.entity';
+import { Tome } from '../tome/tome.entity';
 
 @Entity('edition')
 export class Edition extends BaseEntity {
@@ -29,4 +30,7 @@ export class Edition extends BaseEntity {
 
   @OneToMany((type) => Edition_user, (edition_user) => edition_user.edition)
   editionUser: Edition_user[];
+
+  @OneToMany((type) => Tome, (tome) => tome.edition)
+  tomes: Tome[];
 }

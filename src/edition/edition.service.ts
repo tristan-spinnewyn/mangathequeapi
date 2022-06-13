@@ -7,6 +7,7 @@ import { Editeurs } from '../editeurs/editeurs.entity';
 import { EditionDto } from './dto/edition.dto';
 import { Edition_user } from './edition_user.entity';
 import { User } from '../users/user.entity';
+import { Edition_userDto } from './dto/edition_user.dto';
 
 @Injectable()
 export class EditionService {
@@ -61,20 +62,28 @@ export class EditionService {
     });
   }
 
-  async addEditionUser(edition_id: number, user_id: number) {
+  async addOrCreateEditionUser(
+    edition_id: number,
+    user_id: number,
+    editionuserDto: Edition_userDto,
+  ) {
     const edition = await this.editionRepo.findOne(edition_id);
     const user = await this.userRepo.findOne(user_id);
 
-    if ((await this.findEditionUser(user, edition)) !== null) {
-      return null;
+    const editionuser = await this.findEditionUser(user, edition);
+
+    if (editionuser == null) {
+      await this.editionUser.save({
+        user: user,
+        edition: edition,
+        note: editionuserDto.note,
+      });
+    } else {
+      await this.editionUser.save({
+        id: editionuser.id,
+        note: editionuserDto.note,
+      });
     }
-
-    await this.editionUser.save({
-      user: user,
-      edition: edition,
-    });
-
-    return true;
   }
 
   async delEditionUser(edition_id: number, user_id: number) {

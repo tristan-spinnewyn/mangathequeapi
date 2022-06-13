@@ -9,6 +9,7 @@ import { EditeursModule } from './editeurs/editeurs.module';
 import { AuteursModule } from './auteurs/auteurs.module';
 import { SeriesModule } from './series/series.module';
 import { EditionModule } from './edition/edition.module';
+import { TomeModule } from './tome/tome.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { EditionModule } from './edition/edition.module';
     AuteursModule,
     SeriesModule,
     EditionModule,
+    TomeModule,
   ],
   controllers: [AppController],
   providers: [AppService],

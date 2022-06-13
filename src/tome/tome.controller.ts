@@ -11,25 +11,24 @@ import {
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
-import { EditionService } from './edition.service';
+import { TomeService } from './tome.service';
 import { UsersService } from '../users/users.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { EditionDto } from './dto/edition.dto';
+import { TomeDto } from './dto/tome.dto';
 import { Response } from 'express';
 import { User } from '../users/user.decorator';
-import { Edition_userDto } from './dto/edition_user.dto';
 
-@Controller('edition')
-export class EditionController {
+@Controller('tome')
+export class TomeController {
   constructor(
-    private readonly editionServices: EditionService,
+    private readonly tomeService: TomeService,
     private readonly usersServices: UsersService,
   ) {}
 
   @Post()
   @UseGuards(JwtAuthGuard)
   async create(
-    @Body() createEdition: EditionDto,
+    @Body() tomeDto: TomeDto,
     @Res() res: Response,
     @User('userId') userId: number,
   ) {
@@ -37,14 +36,15 @@ export class EditionController {
     if (!user.isAdmin) {
       throw new UnauthorizedException();
     }
-    await this.editionServices.createOrUpdate(createEdition, null);
+
+    await this.tomeService.createOrUpdate(tomeDto, null);
     return res.status(HttpStatus.OK).send();
   }
 
   @Put(':id')
   @UseGuards(JwtAuthGuard)
   async update(
-    @Body() createEdition: EditionDto,
+    @Body() tomeDto: TomeDto,
     @Res() res: Response,
     @User('userId') userId: number,
     @Param() params,
@@ -53,44 +53,40 @@ export class EditionController {
     if (!user.isAdmin) {
       throw new UnauthorizedException();
     }
-    await this.editionServices.createOrUpdate(createEdition, null);
+
+    await this.tomeService.createOrUpdate(tomeDto, params.id);
     return res.status(HttpStatus.OK).send();
   }
 
   @Get()
   async getAll() {
-    return await this.editionServices.findAll();
+    return await this.tomeService.findAll();
   }
 
   @Get(':id')
   async getById(@Param() params) {
-    return await this.editionServices.findById(params.id);
+    return await this.tomeService.findById(params.id);
   }
 
   @Post(':id/add')
   @UseGuards(JwtAuthGuard)
-  async addEditionUser(
-    @Body() addEditionUserDto: Edition_userDto,
+  async addTomeUser(
     @Res() res: Response,
     @User('userId') userId: number,
     @Param() params,
   ) {
-    await this.editionServices.addOrCreateEditionUser(
-      params.id,
-      userId,
-      addEditionUserDto,
-    );
+    await this.tomeService.addTomeUser(params.id, userId);
     return res.status(HttpStatus.OK).send();
   }
 
   @Delete(':id/delete')
   @UseGuards(JwtAuthGuard)
-  async delEditionUser(
+  async delTomeUser(
     @Res() res: Response,
     @User('userId') userId: number,
     @Param() params,
   ) {
-    await this.editionServices.delEditionUser(params.id, userId);
+    await this.tomeService.delTomeUser(params.id, userId);
     return res.status(HttpStatus.OK).send();
   }
 }

@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 import { Edition_user } from '../edition/edition_user.entity';
+import { Tome_user } from '../tome/tome_user.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -54,4 +55,7 @@ export class User extends BaseEntity {
 
   @OneToMany((type) => Edition_user, (edition_user) => edition_user.user)
   editionUser: Edition_user[];
+
+  @OneToMany((type) => Tome_user, (tome_user) => tome_user.user)
+  tomeUser: Tome_user[];
 }
