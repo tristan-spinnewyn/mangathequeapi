@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpStatus,
   Param,
   Post,
@@ -12,10 +13,9 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { Request } from 'express';
 import { User } from './user.decorator';
 
 @Controller('users')
@@ -44,10 +44,12 @@ export class UsersController {
   ) {
     updateUserDto.active = true;
     updateUserDto.isAdmin = false;
+    console.log(updateUserDto);
     const current = await this.usersService.findById(userId);
     if (!(await current?.validatePassword(updateUserDto.currentPassword))) {
       throw new UnauthorizedException();
     }
+    updateUserDto.isAdmin = current.isAdmin;
     delete updateUserDto.currentPassword;
     if (!updateUserDto.changePassword) {
       delete current.password;
@@ -56,6 +58,7 @@ export class UsersController {
       current.email !== updateUserDto.email &&
       (await this.usersService.findByEmail(updateUserDto.email))
     ) {
+      console.log('oupsi');
       return res.status(HttpStatus.BAD_REQUEST).send();
     }
     await this.usersService.update(updateUserDto, current);
@@ -79,5 +82,13 @@ export class UsersController {
 
     await this.usersService.updateSimply(user);
     return res.status(HttpStatus.OK).send();
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('connected')
+  async getConnectedUser(@Res() res: Response, @User('userId') userId: number) {
+    console.log('get connected user:' + userId);
+    const user = await this.usersService.findById(userId);
+    return res.status(HttpStatus.OK).json(user);
   }
 }
