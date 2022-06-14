@@ -1,5 +1,4 @@
 import {
-  forwardRef,
   MiddlewareConsumer,
   Module,
   NestModule,
@@ -8,20 +7,17 @@ import {
 import { AvisController } from './avis.controller';
 import { AvisService } from './avis.service';
 import { AuthMiddleware } from '../auth/middleware/auth.middleware';
-import { TomeModule } from '../tome/tome.module';
-import { UsersModule } from '../users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Avis } from './avis.entity';
+import { Tome } from '../tome/tome.entity';
+import { User } from '../users/user.entity';
+import { UsersModule } from '../users/users.module';
 
 @Module({
   controllers: [AvisController],
   providers: [AvisService],
   exports: [AvisService],
-  imports: [
-    forwardRef(() => TomeModule),
-    forwardRef(() => UsersModule),
-    TypeOrmModule.forFeature([Avis]),
-  ],
+  imports: [TypeOrmModule.forFeature([Avis, Tome, User]), UsersModule],
 })
 export class AvisModule implements NestModule {
   public configure(consumer: MiddlewareConsumer): any {

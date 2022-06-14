@@ -63,8 +63,13 @@ export class EditionController {
   }
 
   @Get(':id')
-  async getById(@Param() params) {
-    return await this.editionServices.findById(params.id);
+  async getById(@Param() params, @Res() res: Response) {
+    const edition = await this.editionServices.findById(params.id);
+    if (edition == null) {
+      return res.status(HttpStatus.NOT_FOUND).send();
+    }
+
+    return res.status(HttpStatus.OK).json([edition]).send();
   }
 
   @Post(':id/add')

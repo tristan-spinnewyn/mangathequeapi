@@ -1,21 +1,19 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { User } from '../users/user.entity';
 import { Repository } from 'typeorm';
 import { Tome } from './tome.entity';
 import { TomeDto } from './dto/tome.dto';
 import { Edition } from '../edition/edition.entity';
 import { Tome_user } from './tome_user.entity';
-import { UsersService } from '../users/users.service';
-import { EditionService } from '../edition/edition.service';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class TomeService {
   constructor(
-    @Inject(forwardRef(() => UsersService))
+    @InjectRepository(User)
     private readonly userRepo: Repository<User>,
     @InjectRepository(Tome) private readonly tomeRepo: Repository<Tome>,
-    @Inject(forwardRef(() => EditionService))
+    @InjectRepository(Edition)
     private readonly editionRepo: Repository<Edition>,
     @InjectRepository(Tome_user)
     private readonly tomeUserRepo: Repository<Tome_user>,

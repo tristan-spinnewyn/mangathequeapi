@@ -64,7 +64,12 @@ export class AuteursController {
   }
 
   @Get(':id')
-  async getById(@Param() params) {
-    return await this.auteursService.findById(params.id);
+  async getById(@Res() res: Response, @Param() params) {
+    const auteur = await this.auteursService.findById(params.id);
+    if (auteur == null) {
+      return res.status(HttpStatus.NOT_FOUND).send();
+    }
+
+    return res.status(HttpStatus.OK).json([auteur]).send();
   }
 }

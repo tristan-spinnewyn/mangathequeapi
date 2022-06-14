@@ -1,5 +1,4 @@
 import {
-  forwardRef,
   MiddlewareConsumer,
   Module,
   NestModule,
@@ -8,22 +7,21 @@ import {
 import { EditionController } from './edition.controller';
 import { EditionService } from './edition.service';
 import { AuthMiddleware } from '../auth/middleware/auth.middleware';
-import { SeriesModule } from '../series/series.module';
-import { EditeursModule } from '../editeurs/editeurs.module';
 import { UsersModule } from '../users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Edition } from './edition.entity';
 import { Edition_user } from './edition_user.entity';
+import { Series } from '../series/series.entity';
+import { Editeurs } from '../editeurs/editeurs.entity';
+import { User } from '../users/user.entity';
 
 @Module({
   controllers: [EditionController],
   providers: [EditionService],
   exports: [EditionService],
   imports: [
-    forwardRef(() => SeriesModule),
-    forwardRef(() => EditeursModule),
-    forwardRef(() => UsersModule),
-    TypeOrmModule.forFeature([Edition, Edition_user]),
+    UsersModule,
+    TypeOrmModule.forFeature([Edition, Edition_user, Series, Editeurs, User]),
   ],
 })
 export class EditionModule implements NestModule {

@@ -63,7 +63,12 @@ export class EditeursController {
   }
 
   @Get(':id')
-  async getById(@Param() params) {
-    return await this.editeursServices.findById(params.id);
+  async getById(@Res() res: Response, @Param() params) {
+    const editeur = await this.editeursServices.findById(params.id);
+    if (editeur == null) {
+      return res.status(HttpStatus.NOT_FOUND).send();
+    }
+
+    return res.status(HttpStatus.OK).json([editeur]).send();
   }
 }

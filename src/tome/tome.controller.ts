@@ -66,8 +66,12 @@ export class TomeController {
   }
 
   @Get(':id')
-  async getById(@Param() params) {
-    return await this.tomeService.findById(params.id);
+  async getById(@Param() params, @Res() res: Response) {
+    const tome = await this.tomeService.findById(params.id);
+    if (tome == null) {
+      return res.status(HttpStatus.NOT_FOUND).send();
+    }
+    return res.status(HttpStatus.OK).json([tome]).send();
   }
 
   @Post(':id/add')

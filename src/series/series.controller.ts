@@ -63,7 +63,12 @@ export class SeriesController {
   }
 
   @Get(':id')
-  async getById(@Param() params) {
-    return await this.seriesServices.findById(params.id);
+  async getById(@Param() params, @Res() res: Response) {
+    const serie = await this.seriesServices.findById(params.id);
+    if (serie == null) {
+      return res.status(HttpStatus.NOT_FOUND).send();
+    }
+
+    return res.status(HttpStatus.OK).json([serie]).send();
   }
 }
