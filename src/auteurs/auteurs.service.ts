@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAuteurDto } from './dto/create-auteur.dto';
 import { Auteurs } from './auteurs.entity';
+import { ILike } from 'typeorm';
 
 @Injectable()
 export class AuteursService {
@@ -11,8 +12,8 @@ export class AuteursService {
     return auteurs;
   }
 
-  async update(createAuteursDto: CreateAuteurDto, currentAuteur: Auteurs) {
-    return await Auteurs.save(Object.assign(currentAuteur, createAuteursDto));
+  async update(id: number, editedAuteur: Auteurs) {
+    return await Auteurs.update(id, editedAuteur);
   }
 
   async findById(id: number) {
@@ -21,5 +22,8 @@ export class AuteursService {
 
   async findAll() {
     return await Auteurs.find();
+  }
+  async findByName(name: string) {
+    return await Auteurs.find({ nameAuteur: ILike(`%${name}%`) });
   }
 }

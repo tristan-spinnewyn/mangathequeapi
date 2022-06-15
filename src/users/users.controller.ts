@@ -58,7 +58,6 @@ export class UsersController {
       current.email !== updateUserDto.email &&
       (await this.usersService.findByEmail(updateUserDto.email))
     ) {
-      console.log('oupsi');
       return res.status(HttpStatus.BAD_REQUEST).send();
     }
     await this.usersService.update(updateUserDto, current);

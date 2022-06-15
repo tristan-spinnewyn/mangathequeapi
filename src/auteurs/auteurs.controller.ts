@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   Res,
   UnauthorizedException,
   UseGuards,
@@ -43,9 +44,9 @@ export class AuteursController {
   @Put(':id')
   @UseGuards(JwtAuthGuard)
   async update(
+    @User('userId') userId: number,
     @Body() editAuteurDto: CreateAuteurDto,
     @Res() res: Response,
-    @User('userId') userId: number,
     @Param() params,
   ) {
     const user = await this.usersService.findById(userId);
@@ -54,12 +55,16 @@ export class AuteursController {
     }
 
     const current = await this.auteursService.findById(params.id);
-    await this.auteursService.update(editAuteurDto, current);
+    current.nameAuteur = editAuteurDto.nameAuteur;
+    await this.auteursService.update(params.id, current);
     return res.status(HttpStatus.OK).send();
   }
 
   @Get()
-  async getAll() {
+  async getAll(@Query() query) {
+    if (query.name) {
+      return await this.auteursService.findByName(query.name);
+    }
     return await this.auteursService.findAll();
   }
 
@@ -70,6 +75,6 @@ export class AuteursController {
       return res.status(HttpStatus.NOT_FOUND).send();
     }
 
-    return res.status(HttpStatus.OK).json([auteur]).send();
+    return res.status(HttpStatus.OK).json([auteur]);
   }
 }

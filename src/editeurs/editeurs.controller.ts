@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   Res,
   UnauthorizedException,
   UseGuards,
@@ -53,12 +54,16 @@ export class EditeursController {
       throw new UnauthorizedException();
     }
     const current = await this.editeursServices.findById(params.id);
-    await this.editeursServices.update(createCreationEditeurs, current);
+    current.nameEditeur = createCreationEditeurs.nameEditeur;
+    await this.editeursServices.update(params.id, current);
     return res.status(HttpStatus.OK).send();
   }
 
   @Get()
-  async getAll() {
+  async getAll(@Query() query) {
+    if (query.name) {
+      return await this.editeursServices.findByName(query.name);
+    }
     return await this.editeursServices.findAll();
   }
 
