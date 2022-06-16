@@ -22,10 +22,10 @@ export class Edition extends BaseEntity {
   @Column()
   statut: string;
 
-  @ManyToOne((type) => Editeurs, (editeurs) => editeurs.id)
+  @ManyToOne((type) => Editeurs, (editeurs) => editeurs.id, { eager: true })
   editeur: Editeurs;
 
-  @ManyToOne((type) => Series, (series) => series.id)
+  @ManyToOne((type) => Series, (series) => series.id, { eager: true })
   serie: Series;
 
   @OneToMany((type) => Edition_user, (edition_user) => edition_user.edition)

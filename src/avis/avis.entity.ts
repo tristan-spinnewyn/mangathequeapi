@@ -2,6 +2,7 @@ import {
   BaseEntity,
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -19,9 +20,11 @@ export class Avis extends BaseEntity {
   @Column()
   signalee: boolean;
 
-  @ManyToOne((type) => Tome, (tome) => tome.id)
+  @ManyToOne((type) => Tome, (tome) => tome.id, { eager: true })
+  @JoinColumn({ name: 'tomeId' })
   tome: Tome;
 
-  @ManyToOne((type) => User, (user) => user.id)
+  @ManyToOne((type) => User, (user) => user.id, { eager: true })
+  @JoinColumn({ name: 'userId' })
   user: User;
 }

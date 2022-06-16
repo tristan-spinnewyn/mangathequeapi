@@ -35,7 +35,7 @@ export class Tome extends BaseEntity {
   })
   isbn: string;
 
-  @ManyToOne((type) => Edition, (edition) => edition.id)
+  @ManyToOne((type) => Edition, (edition) => edition.id, { eager: true })
   edition: Edition;
 
   @OneToMany((type) => Tome_user, (tome_user) => tome_user.tome)

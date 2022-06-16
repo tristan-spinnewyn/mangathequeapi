@@ -73,6 +73,6 @@ export class SeriesController {
       return res.status(HttpStatus.NOT_FOUND).send();
     }
 
-    return res.status(HttpStatus.OK).json([serie]).send();
+    return res.status(HttpStatus.OK).json([serie]);
   }
 }

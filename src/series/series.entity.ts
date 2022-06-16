@@ -2,6 +2,7 @@ import {
   BaseEntity,
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -17,7 +18,8 @@ export class Series extends BaseEntity {
   @Column()
   nameSeries: string;
 
-  @ManyToOne((type) => Auteurs, (auteurs) => auteurs.id)
+  @ManyToOne((type) => Auteurs, (auteurs) => auteurs.id, { eager: true })
+  @JoinColumn({ name: 'auteurId' })
   auteur: Auteurs;
 
   @OneToMany((type) => Edition, (edition) => edition.serie)
