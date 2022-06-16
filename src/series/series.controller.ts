@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   Res,
   UnauthorizedException,
   UseGuards,
@@ -58,7 +59,10 @@ export class SeriesController {
   }
 
   @Get()
-  async getAll() {
+  async getAll(@Query() query) {
+    if (query.name) {
+      return await this.seriesServices.findByName(query.name);
+    }
     return await this.seriesServices.findAll();
   }
 

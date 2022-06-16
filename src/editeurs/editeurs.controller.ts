@@ -74,6 +74,6 @@ export class EditeursController {
       return res.status(HttpStatus.NOT_FOUND).send();
     }
 
-    return res.status(HttpStatus.OK).json([editeur]).send();
+    return res.status(HttpStatus.OK).json([editeur]);
   }
 }

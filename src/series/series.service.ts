@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSeriesDto } from './dto/createSeriesDto';
 import { Auteurs } from '../auteurs/auteurs.entity';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { Series } from './series.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -21,8 +21,7 @@ export class SeriesService {
         auteur: auteurs,
       });
     } else {
-      await this.serieRepo.save({
-        id: id,
+      await this.serieRepo.update(id, {
         nameSeries: createSeriesDto.nameSeries,
         auteur: auteurs,
       });
@@ -35,5 +34,11 @@ export class SeriesService {
 
   async findAll() {
     return await this.serieRepo.find();
+  }
+
+  async findByName(name: string) {
+    return await this.serieRepo.find({
+      nameSeries: ILike(`%${name}%`),
+    });
   }
 }
