@@ -31,6 +31,7 @@ export class SeriesService {
   async findById(id: number) {
     return await this.serieRepo.findOne(id, {
       select: ['id', 'nameSeries', 'auteur'],
+      relations: ['editions'],
     });
   }
 
