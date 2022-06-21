@@ -71,7 +71,7 @@ export class TomeController {
     if (tome == null) {
       return res.status(HttpStatus.NOT_FOUND).send();
     }
-    return res.status(HttpStatus.OK).json([tome]).send();
+    return res.status(HttpStatus.OK).json([tome]);
   }
 
   @Post(':id/add')

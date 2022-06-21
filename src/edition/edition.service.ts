@@ -35,8 +35,7 @@ export class EditionService {
         editeur: editeur,
       });
     } else {
-      await this.editionRepo.save({
-        id: id,
+      await this.editionRepo.update(id, {
         nameEdition: editionDto.nameEdition,
         statut: editionDto.statut,
         serie: serie,
@@ -46,7 +45,9 @@ export class EditionService {
   }
 
   async findById(id: number) {
-    return await this.editionRepo.findOne(id);
+    return await this.editionRepo.findOne(id, {
+      relations: ['tomes'],
+    });
   }
 
   async findAll() {

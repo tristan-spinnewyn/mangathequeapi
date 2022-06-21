@@ -53,7 +53,7 @@ export class EditionController {
     if (!user.isAdmin) {
       throw new UnauthorizedException();
     }
-    await this.editionServices.createOrUpdate(createEdition, null);
+    await this.editionServices.createOrUpdate(createEdition, params.id);
     return res.status(HttpStatus.OK).send();
   }
 
@@ -69,7 +69,7 @@ export class EditionController {
       return res.status(HttpStatus.NOT_FOUND).send();
     }
 
-    return res.status(HttpStatus.OK).json([edition]).send();
+    return res.status(HttpStatus.OK).json([edition]);
   }
 
   @Post(':id/add')

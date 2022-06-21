@@ -33,8 +33,7 @@ export class TomeService {
         imageCouverture: tomeDto.imageCouverture,
       });
     } else {
-      await this.tomeRepo.save({
-        id: id,
+      await this.tomeRepo.update(id, {
         numero: tomeDto.numero,
         desc: tomeDto.desc,
         dateSortie: tomeDto.dateSortie,
