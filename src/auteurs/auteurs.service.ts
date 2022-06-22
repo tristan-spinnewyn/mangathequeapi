@@ -17,7 +17,7 @@ export class AuteursService {
   }
 
   async findById(id: number) {
-    return await Auteurs.findOne(id);
+    return await Auteurs.findOne(id, { relations: ['series'] });
   }
 
   async findAll() {
