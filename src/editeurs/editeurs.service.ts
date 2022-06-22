@@ -17,7 +17,7 @@ export class EditeursService {
   }
 
   async findById(id: number) {
-    return await Editeurs.findOne(id);
+    return await Editeurs.findOne(id, { relations: ['editions'] });
   }
 
   async findAll() {
