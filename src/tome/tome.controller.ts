@@ -65,6 +65,11 @@ export class TomeController {
     return await this.tomeService.findAll();
   }
 
+  @Get('/new')
+  async getNew() {
+    return await this.tomeService.findLastPublishedTome();
+  }
+
   @Get(':id')
   async getById(@Param() params, @Res() res: Response) {
     const tome = await this.tomeService.findById(params.id);

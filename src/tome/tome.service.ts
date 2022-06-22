@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { User } from '../users/user.entity';
-import { Repository } from 'typeorm';
+import { LessThanOrEqual, Repository } from 'typeorm';
 import { Tome } from './tome.entity';
 import { TomeDto } from './dto/tome.dto';
 import { Edition } from '../edition/edition.entity';
@@ -51,6 +51,20 @@ export class TomeService {
 
   async findAll() {
     return await this.tomeRepo.find();
+  }
+
+  async findLastPublishedTome() {
+    const dateNow = new Date();
+    return await this.tomeRepo.find({
+      where: {
+        dateSortie: LessThanOrEqual(dateNow),
+      },
+      relations: ['edition'],
+      order: {
+        dateSortie: 'DESC',
+      },
+      take: 6,
+    });
   }
 
   async findTomeUser(user: User, tome: Tome) {
