@@ -105,4 +105,15 @@ export class TomeController {
   async getAvis(@Param() params) {
     return await this.avisService.findByTome(params.id);
   }
+
+  @Get(':id/collection')
+  async getTomeUser(
+    @Res() res: Response,
+    @User('userId') userId: number,
+    @Param() params,
+  ) {
+    return res
+      .status(200)
+      .json([await this.tomeService.findTomeForUser(params.id, userId)]);
+  }
 }

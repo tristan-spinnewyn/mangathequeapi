@@ -70,10 +70,17 @@ export class TomeService {
   async findTomeUser(user: User, tome: Tome) {
     return await this.tomeUserRepo.findOne({
       where: {
-        user: User,
-        tome: Tome,
+        user: user,
+        tome: tome,
       },
     });
+  }
+
+  async findTomeForUser(tome_id: number, user_id: number) {
+    const user = await this.userRepo.findOne(user_id);
+    const tome = await this.tomeRepo.findOne(tome_id);
+
+    return await this.findTomeUser(user, tome);
   }
 
   async addTomeUser(tome_id: number, user_id: number) {
