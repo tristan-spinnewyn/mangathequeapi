@@ -46,7 +46,7 @@ export class TomeService {
   }
 
   async findById(id: number) {
-    return await this.tomeRepo.findOne(id);
+    return await this.tomeRepo.findOne(id, { relations: ['avis'] });
   }
 
   async findAll() {

@@ -63,6 +63,13 @@ export class EditionService {
     });
   }
 
+  async findEditionUserById(userId: number, editionId: number) {
+    const edition = await this.editionRepo.findOne(editionId);
+    const user = await this.userRepo.findOne(userId);
+
+    return await this.findEditionUser(user, edition);
+  }
+
   async addOrCreateEditionUser(
     edition_id: number,
     user_id: number,
@@ -80,8 +87,7 @@ export class EditionService {
         note: editionuserDto.note,
       });
     } else {
-      await this.editionUser.save({
-        id: editionuser.id,
+      await this.editionUser.update(editionuser.id, {
         note: editionuserDto.note,
       });
     }
