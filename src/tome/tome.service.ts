@@ -76,6 +76,14 @@ export class TomeService {
     });
   }
 
+  async findTomesForUser(user_id: number) {
+    const user = await this.userRepo.findOne(user_id);
+    return await this.tomeUserRepo.find({
+      where: { user: user },
+      relations: ['tome', 'tome.edition', 'tome.edition.tomes'],
+    });
+  }
+
   async findTomeForUser(tome_id: number, user_id: number) {
     const user = await this.userRepo.findOne(user_id);
     const tome = await this.tomeRepo.findOne(tome_id);

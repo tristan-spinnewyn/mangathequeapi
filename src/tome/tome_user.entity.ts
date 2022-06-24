@@ -10,6 +10,6 @@ export class Tome_user extends BaseEntity {
   @ManyToOne((type) => User, (user) => user.id)
   user: User;
 
-  @ManyToOne((type) => Tome, (tome) => tome.id)
+  @ManyToOne((type) => Tome, (tome) => tome.id, { eager: true })
   tome: Tome;
 }

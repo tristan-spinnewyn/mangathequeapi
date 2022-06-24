@@ -70,6 +70,11 @@ export class TomeController {
     return await this.tomeService.findLastPublishedTome();
   }
 
+  @Get('/collection')
+  async getTomesUser(@User('userId') userId: number) {
+    return await this.tomeService.findTomesForUser(userId);
+  }
+
   @Get(':id')
   async getById(@Param() params, @Res() res: Response) {
     const tome = await this.tomeService.findById(params.id);
