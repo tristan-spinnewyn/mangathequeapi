@@ -64,6 +64,19 @@ export class TomeController {
   async getAll() {
     return await this.tomeService.findAll();
   }
+  @Get('/next')
+  async getTomesNextPublisher() {
+    return await this.tomeService.getNextPublish();
+  }
+  @Get('/new')
+  async getNew() {
+    return await this.tomeService.findLastPublishedTome();
+  }
+
+  @Get('/collection')
+  async getTomesUser(@User('userId') userId: number) {
+    return await this.tomeService.findTomesForUser(userId);
+  }
 
   @Get(':id')
   async getById(@Param() params, @Res() res: Response) {
@@ -99,5 +112,16 @@ export class TomeController {
   @Get(':id/avis')
   async getAvis(@Param() params) {
     return await this.avisService.findByTome(params.id);
+  }
+
+  @Get(':id/collection')
+  async getTomeUser(
+    @Res() res: Response,
+    @User('userId') userId: number,
+    @Param() params,
+  ) {
+    return res
+      .status(200)
+      .json([await this.tomeService.findTomeForUser(params.id, userId)]);
   }
 }

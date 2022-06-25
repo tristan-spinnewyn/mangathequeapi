@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { User } from '../users/user.entity';
-import { Repository } from 'typeorm';
+import { LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm';
 import { Tome } from './tome.entity';
 import { TomeDto } from './dto/tome.dto';
 import { Edition } from '../edition/edition.entity';
@@ -46,20 +46,49 @@ export class TomeService {
   }
 
   async findById(id: number) {
-    return await this.tomeRepo.findOne(id);
+    return await this.tomeRepo.findOne(id, { relations: ['avis'] });
   }
 
   async findAll() {
     return await this.tomeRepo.find();
   }
 
+  async findLastPublishedTome() {
+    const dateNow = new Date();
+    return await this.tomeRepo.find({
+      where: {
+        dateSortie: LessThanOrEqual(dateNow),
+      },
+      relations: ['edition'],
+      order: {
+        dateSortie: 'DESC',
+      },
+      take: 6,
+    });
+  }
+
   async findTomeUser(user: User, tome: Tome) {
     return await this.tomeUserRepo.findOne({
       where: {
-        user: User,
-        tome: Tome,
+        user: user,
+        tome: tome,
       },
     });
+  }
+
+  async findTomesForUser(user_id: number) {
+    const user = await this.userRepo.findOne(user_id);
+    return await this.tomeUserRepo.find({
+      where: { user: user },
+      relations: ['tome', 'tome.edition', 'tome.edition.tomes'],
+    });
+  }
+
+  async findTomeForUser(tome_id: number, user_id: number) {
+    const user = await this.userRepo.findOne(user_id);
+    const tome = await this.tomeRepo.findOne(tome_id);
+
+    return await this.findTomeUser(user, tome);
   }
 
   async addTomeUser(tome_id: number, user_id: number) {
@@ -82,5 +111,17 @@ export class TomeService {
     const tomeuser = await this.findTomeUser(user, tome);
 
     await this.tomeUserRepo.delete(tomeuser);
+  }
+
+  async getNextPublish() {
+    const now = new Date();
+    return await this.tomeRepo.find({
+      where: {
+        dateSortie: MoreThanOrEqual(now),
+      },
+      order: {
+        dateSortie: 'ASC',
+      },
+    });
   }
 }

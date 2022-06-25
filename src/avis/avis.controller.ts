@@ -34,14 +34,14 @@ export class AvisController {
   ) {
     avisDto.userId = userId;
     await this.avisService.createOrUpdate(avisDto, null);
-    return res.status(HttpStatus.OK).send;
+    return res.status(HttpStatus.OK).send();
   }
 
   @Put(':id/signale')
   @UseGuards(JwtAuthGuard)
   async signale(@Param() params, @Res() res: Response) {
     await this.avisService.signalee(params.id);
-    return res.status(HttpStatus.OK).send;
+    return res.status(HttpStatus.OK).send();
   }
 
   @Get('/signalee')
@@ -66,6 +66,6 @@ export class AvisController {
       throw new UnauthorizedException();
     }
     await this.avisService.deleteComment(params.id);
-    return res.status(HttpStatus.OK).send;
+    return res.status(HttpStatus.OK).send();
   }
 }

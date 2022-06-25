@@ -98,4 +98,18 @@ export class EditionController {
     await this.editionServices.delEditionUser(params.id, userId);
     return res.status(HttpStatus.OK).send();
   }
+
+  @Get(':id/getNote')
+  @UseGuards(JwtAuthGuard)
+  async findEditionUser(
+    @Res() res: Response,
+    @User('userId') userId: number,
+    @Param() params,
+  ) {
+    const data = await this.editionServices.findEditionUserById(
+      userId,
+      params.id,
+    );
+    return res.status(HttpStatus.OK).json([data]);
+  }
 }

@@ -44,7 +44,6 @@ export class UsersController {
   ) {
     updateUserDto.active = true;
     updateUserDto.isAdmin = false;
-    console.log(updateUserDto);
     const current = await this.usersService.findById(userId);
     if (!(await current?.validatePassword(updateUserDto.currentPassword))) {
       throw new UnauthorizedException();
@@ -86,7 +85,6 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Get('connected')
   async getConnectedUser(@Res() res: Response, @User('userId') userId: number) {
-    console.log('get connected user:' + userId);
     const user = await this.usersService.findById(userId);
     return res.status(HttpStatus.OK).json(user);
   }

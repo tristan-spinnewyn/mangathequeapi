@@ -26,7 +26,7 @@ export class AvisService {
         signalee: false,
       });
     } else {
-      await this.avisRepo.save({
+      await this.avisRepo.update(id, {
         commantaire: avisDto.commantaire,
         user: user,
         tome: tome,
@@ -40,7 +40,7 @@ export class AvisService {
     const avis = await this.avisRepo.findOne(id);
     if (avis == null) return null;
     avis.signalee = true;
-    await this.avisRepo.save(avis);
+    await this.avisRepo.update(avis.id, avis);
   }
 
   async findByTome(tomeId: number) {
