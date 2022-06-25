@@ -64,7 +64,10 @@ export class TomeController {
   async getAll() {
     return await this.tomeService.findAll();
   }
-
+  @Get('/next')
+  async getTomesNextPublisher() {
+    return await this.tomeService.getNextPublish();
+  }
   @Get('/new')
   async getNew() {
     return await this.tomeService.findLastPublishedTome();
